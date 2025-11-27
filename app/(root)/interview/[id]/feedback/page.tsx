@@ -1,26 +1,29 @@
 import { getCurrentUser } from "@/lib/actions/auth.action";
-import { getFeedbackByInterviewId, getInterviewsByUserId } from "@/lib/actions/general.action";
+import { getFeedbackByInterviewId, getInterviewsById } from "@/lib/actions/general.action";
 import { redirect } from "next/navigation";
-import React from 'react';
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
+import React from 'react'
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import Link from "next/link"
 import dayjs from "dayjs";
 
 const page = async ({ params }: RouteParams) => {
+
   const { id } = await params;
   const user = await getCurrentUser();
 
-  const interviews = await getInterviewsByUserId(id);
+  const interview = await getInterviewsById(id);
 
-  if (!interviews || interviews.length === 0) redirect("/");
-
-  const interview = interviews[0]; // ✅ fix
+  if(!interview) redirect("/");
 
   const feedback = await getFeedbackByInterviewId({
     interviewId: id,
     userId: user?.id!,
-  });
+
+  })
+
+  // console.log(feedback);
+
 
   return (
     <section className="section-feedback">
@@ -31,7 +34,7 @@ const page = async ({ params }: RouteParams) => {
         </h1>
       </div>
 
-      <div className="flex flex-row justify-center">
+      <div className="flex flex-row justify-center ">
         <div className="flex flex-row gap-5">
           {/* Overall Impression */}
           <div className="flex flex-row gap-2 items-center">
@@ -113,7 +116,7 @@ const page = async ({ params }: RouteParams) => {
         </Button>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default page;
+export default page
