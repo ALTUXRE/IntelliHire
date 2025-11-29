@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/actions/auth.action";
-import { getFeedbackByInterviewId, getInterviewsById } from "@/lib/actions/general.action";
+// Change this line
+import { getFeedbackByInterviewId, getInterviewById } from "@/lib/actions/general.action"; 
 import { redirect } from "next/navigation";
 import React from 'react'
 import { Button } from "@/components/ui/button"
@@ -12,7 +13,8 @@ const page = async ({ params }: RouteParams) => {
   const { id } = await params;
   const user = await getCurrentUser();
 
-  const interview = await getInterviewsById(id);
+  // Change this line
+  const interview = await getInterviewById(id); 
 
   if(!interview) redirect("/");
 
